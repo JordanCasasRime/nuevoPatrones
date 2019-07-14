@@ -1,7 +1,7 @@
 package DAO;
 
 import Class.Publication;
-import DataBase.MongoDB;
+import DataBaseStrategy.MongoDB;
 import Interfaces.IConnection;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

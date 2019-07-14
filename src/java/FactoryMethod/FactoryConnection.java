@@ -4,7 +4,6 @@ import DAO.HeadquartersDAO;
 import DAO.PersonDAO;
 import DAO.PublicationDAO;
 import DAO.UserDAO;
-import Interfaces.CRUD;
 
 public class FactoryConnection {
     

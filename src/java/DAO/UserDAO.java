@@ -1,7 +1,7 @@
 package DAO;
 
 import Class.User;
-import DataBase.MongoDB;
+import DataBaseStrategy.MongoDB;
 import Interfaces.IConnection;
 import Interfaces.IUserDAO;
 import com.mongodb.BasicDBObject;
@@ -9,7 +9,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import java.util.ArrayList;
 
-public class UserDAO implements IConnection, IUserDAO {
+public class UserDAO implements IUserDAO {
     
     private static MongoDB mongodb;
     private static DBCollection collection; 
@@ -28,7 +28,6 @@ public class UserDAO implements IConnection, IUserDAO {
         collection = mongodb.getDatabase().getCollection("usuarios");
     }
 
-    @Override
     public void disconnection() {
         mongodb.disconnection();
     }

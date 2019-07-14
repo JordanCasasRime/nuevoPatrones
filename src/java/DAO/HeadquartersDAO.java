@@ -1,7 +1,7 @@
 package DAO;
 
 import Class.Headquarters;
-import DataBase.MongoDB;
+import DataBaseStrategy.MongoDB;
 import Interfaces.IConnection;
 import Interfaces.IHeadquartersDAO;
 import com.mongodb.BasicDBObject;
@@ -9,7 +9,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import java.util.ArrayList;
 
-public class HeadquartersDAO implements IConnection, IHeadquartersDAO {
+public class HeadquartersDAO implements IHeadquartersDAO {
     
     private IConnection connection;
     private static MongoDB mongodb;
@@ -33,7 +33,6 @@ public class HeadquartersDAO implements IConnection, IHeadquartersDAO {
         collection = mongodb.getDatabase().getCollection("sedes");
     }
 
-    @Override
     public void disconnection() {
         mongodb.disconnection();
     }

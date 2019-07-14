@@ -4,13 +4,14 @@ import Class.Publication;
 import DAO.HeadquartersDAO;
 import DAO.PersonDAO;
 import DAO.PublicationDAO;
-import DataBase.MongoDB;
-import DataBase.MySQL;
-import DataBase.PostgreSQL;
-import DataBase.SQL;
-import DataBase.SQLServer;
+import DataBaseStrategy.ConectionDataBase;
+import DataBaseStrategy.MongoDB;
+import DataBaseStrategy.MySQL;
+import DataBaseStrategy.PostgreSQL;
+import DataBaseStrategy.SQL;
+import DataBaseStrategy.SQLServer;
 import DataBaseStrategy.DataBase;
-import Interfaces.CRUD;
+import FactoryMethod.CRUD;
 import Interfaces.IConnection;
 import TemplateMethod.AccessAdministrator;
 import TemplateMethod.AccessPlataform;
@@ -113,11 +114,15 @@ public class Prueba {
 //        }
 
 
-        DataBase mongo = MongoDB.getInstance();
-        DataBase postgres = PostgreSQL.getInstance();
-        DataBase sql = SQL.getInstance();
-        DataBase sqlserver = SQLServer.getInstance();
-        DataBase mysql = MySQL.getInstance();
+//        DataBase mongo = MongoDB.getInstance();
+//        DataBase postgres = PostgreSQL.getInstance();
+//        DataBase sql = SQL.getInstance();
+//        DataBase sqlserver = SQLServer.getInstance();
+//        DataBase mysql = MySQL.getInstance();
+
+        ConectionDataBase bd = new ConectionDataBase();
+        bd.selectConection("PostgreSQL");
+        bd.selectConection("MySQL");
 
     }
 

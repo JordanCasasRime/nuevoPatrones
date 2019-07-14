@@ -1,4 +1,4 @@
-package Interfaces;
+package FactoryMethod;
 
 import java.util.ArrayList;
 
