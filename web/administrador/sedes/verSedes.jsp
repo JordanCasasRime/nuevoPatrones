@@ -219,11 +219,11 @@
                         <tbody>
                             <c:forEach items="${sedes}" var="sede">
                                 <tr>
-                                  <th scope="row">${sede.sedeId}</th>
-                                  <td>${sede.nombre}</td>
-                                  <td>${sede.direccion}</td>
-                                  <td>${sede.aforo}</td>
-                                  <td><a class="btn btn-success" href="SedesControlador?pagina=editarSede&id=${sede.sedeId}">Editar</a></td>
+                                  <th scope="row">${sede.headquartersId}</th>
+                                  <td>${sede.name}</td>
+                                  <td>${sede.address}</td>
+                                  <td>${sede.capacity}</td>
+                                  <td><a class="btn btn-success" href="SedesControlador?pagina=editarSede&id=${sede.headquartersId}">Editar</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

@@ -1,6 +1,6 @@
 package Class;
 
-import Interfaces.IClone;
+import Prototype.IClone;
 
 public class Person implements IClone {
     

@@ -6,8 +6,11 @@ public class ConcreteIterable implements Iterable<Object> {
 
     private ArrayList<Object> myList;
 
+    public ConcreteIterable(ArrayList<Object> myList) {
+        this.myList = myList;
+    }
+    
     public ArrayList<Object> getList(){
-//        myList.add("");
         return myList;
     }
     

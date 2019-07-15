@@ -1,6 +1,6 @@
-package DataBaseStrategy;
+package DataBase_Strategy;
 
-import DataBaseStrategy.DataBase;
+import DataBase_Strategy.DataBase;
 import Interfaces.IConnection;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
@@ -44,6 +44,13 @@ public class MongoDB extends DataBase {
     @Override
     public void disconnection() {
         instance.close();
+    }
+    
+    @Override
+    public boolean isConnection() {
+        if (databaseMongo.getDatabase() != null)
+            return true;
+        return false;
     }
     
 }

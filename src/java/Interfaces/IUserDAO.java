@@ -1,6 +1,6 @@
 package Interfaces;
 
-import FactoryMethod.CRUD;
+import DAO_FactoryMethod.CRUD;
 import Class.Headquarters;
 import Class.User;
 

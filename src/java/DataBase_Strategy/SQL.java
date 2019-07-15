@@ -1,6 +1,6 @@
-package DataBaseStrategy;
+package DataBase_Strategy;
 
-import DataBaseStrategy.DataBase;
+import DataBase_Strategy.DataBase;
 
 public class SQL extends DataBase{
 
@@ -20,7 +20,14 @@ public class SQL extends DataBase{
     
     @Override
     public void disconnection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(isConnection())
+            System.out.println("Desconectar");
+        System.out.println("No existe");
+    }
+
+    @Override
+    public boolean isConnection() {
+        return false;
     }
     
 }

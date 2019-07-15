@@ -2,8 +2,17 @@ package Class;
 
 public class Competition {
     
+    private int competitionId;
     private String title;
     private String category;
+
+    public int getCompetitionId() {
+        return competitionId;
+    }
+
+    public void setCompetitionId(int competitionId) {
+        this.competitionId = competitionId;
+    }
 
     public String getTitle() {
         return title;

@@ -1,7 +1,7 @@
 package DAO;
 
 import Class.Person;
-import DataBaseStrategy.MongoDB;
+import DataBase_Strategy.MongoDB;
 import Interfaces.IConnection;
 import Interfaces.IPersonDAO;
 import com.mongodb.BasicDBObject;

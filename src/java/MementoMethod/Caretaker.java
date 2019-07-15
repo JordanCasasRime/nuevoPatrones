@@ -1,5 +1,6 @@
 package MementoMethod;
 
+import Iterator.CopyAll;
 import java.util.ArrayList;
 
 public class Caretaker {
@@ -8,6 +9,10 @@ public class Caretaker {
     
     public void addMemento(Memento m) {
         mementos.add(m);
+    }
+
+    public ArrayList<Memento> getMementos() {
+        return mementos;
     }
     
     public Memento getMemento(int index) {

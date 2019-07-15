@@ -1,4 +1,4 @@
-package FactoryMethod;
+package DAO_FactoryMethod;
 
 import DAO.HeadquartersDAO;
 import DAO.PersonDAO;

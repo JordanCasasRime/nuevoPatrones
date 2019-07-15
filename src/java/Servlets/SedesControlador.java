@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controladores;
+package Servlets;
 
 import BD.ConexionMongo;
+import Class.Headquarters;
+import DAO_FactoryMethod.FactoryConnection;
 import clases.Sede;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,15 +65,24 @@ public class SedesControlador extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         if(request.getParameter("pagina").equals("verSedes")){
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Sede> sedes =conexion.obtenerSedes();
-            conexion.cerrarConexion();
+            
+            FactoryConnection factory = new FactoryConnection();
+            ArrayList<Headquarters> sedes = factory.getConnection("Headquarters").readAll();
+            factory.getConnection("Headquarters").disconnection();
+            
+//            ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Sede> sedes =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
+            
             request.setAttribute("sedes",sedes);
             request.getRequestDispatcher("administrador/sedes/verSedes.jsp").forward(request, response);
         }else if(request.getParameter("pagina").equals("editarSede")){
-            ConexionMongo conexion = new ConexionMongo();
-            Sede sede =conexion.obtenerSede(Integer.parseInt(request.getParameter("id")));
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            Sede sede =conexion.obtenerSede(Integer.parseInt(request.getParameter("id")));
+//            conexion.cerrarConexion();
+            FactoryConnection factory = new FactoryConnection();
+            Headquarters sede = (Headquarters) factory.getConnection("Headquarters").readID(Integer.parseInt(request.getParameter("id")));
+            factory.getConnection("Headquarters").disconnection();
             request.setAttribute("sede",sede);
             request.getRequestDispatcher("administrador/sedes/editarSede.jsp").forward(request, response);
         }else if(request.getParameter("pagina").equals("crearSede")){
@@ -94,10 +105,17 @@ public class SedesControlador extends HttpServlet {
             String nombre = request.getParameter("nombreSede");
             String direccion = request.getParameter("direccionSede");
             int aforo = Integer.parseInt(request.getParameter("aforoSede"));
-            ConexionMongo conexion = new ConexionMongo();
-            conexion.crearSede(nombre,direccion,aforo);
-            ArrayList<Sede> sedes =conexion.obtenerSedes();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            conexion.crearSede(nombre,direccion,aforo);
+//            ArrayList<Sede> sedes =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
+            
+            FactoryConnection factory = new FactoryConnection();
+            Headquarters h = new Headquarters(nombre,direccion,aforo);
+            factory.getConnection("Headquarters").create(h);
+            ArrayList<Headquarters> sedes = factory.getConnection("Headquarters").readAll();
+            factory.getConnection("Headquarters").disconnection();
+            
             request.setAttribute("sedes",sedes);
             request.getRequestDispatcher("administrador/sedes/verSedes.jsp").forward(request, response);
         }else if(request.getParameter("_method").equals("PUT")){
@@ -106,19 +124,32 @@ public class SedesControlador extends HttpServlet {
             int aforo = Integer.parseInt(request.getParameter("aforoSede"));
             int sedeId = Integer.parseInt(request.getParameter("sedeId"));
 
-            ConexionMongo conexion = new ConexionMongo();
-            conexion.editarSede(nombre, direccion, aforo, sedeId);
-            ArrayList<Sede> sedes =conexion.obtenerSedes();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            conexion.editarSede(nombre, direccion, aforo, sedeId);
+//            ArrayList<Sede> sedes =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
+            
+            FactoryConnection factory = new FactoryConnection();
+            Headquarters h = new Headquarters(nombre,direccion,aforo, sedeId);
+            factory.getConnection("Headquarters").update(h);
+            ArrayList<Headquarters> sedes = factory.getConnection("Headquarters").readAll();
+            factory.getConnection("Headquarters").disconnection();
+            
             request.setAttribute("sedes",sedes);
             request.getRequestDispatcher("administrador/sedes/verSedes.jsp").forward(request, response);
         }else if(request.getParameter("_method").equals("DELETE")){
             int sedeId = Integer.parseInt(request.getParameter("sedeId"));
 
-            ConexionMongo conexion = new ConexionMongo();
-            conexion.eliminarSede(sedeId);
-            ArrayList<Sede> sedes =conexion.obtenerSedes();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            conexion.eliminarSede(sedeId);
+//            ArrayList<Sede> sedes =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
+            
+            FactoryConnection factory = new FactoryConnection();
+            factory.getConnection("Headquarters").delete(sedeId);
+            ArrayList<Headquarters> sedes = factory.getConnection("Headquarters").readAll();
+            factory.getConnection("Headquarters").disconnection();
+            
             request.setAttribute("sedes",sedes);
             request.getRequestDispatcher("administrador/sedes/verSedes.jsp").forward(request, response);
         }

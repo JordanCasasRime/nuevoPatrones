@@ -1,4 +1,4 @@
-package controladores;
+package Servlets;
 
 import BD.ConexionMongo;
 import TemplateMethod.AccessAdministrator;

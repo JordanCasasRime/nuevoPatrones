@@ -1,6 +1,6 @@
-package DataBaseStrategy;
+package DataBase_Strategy;
 
-import DataBaseStrategy.DataBase;
+import DataBase_Strategy.DataBase;
 
 public class MySQL extends DataBase{
 
@@ -9,7 +9,7 @@ public class MySQL extends DataBase{
     private synchronized static MySQL Singleton() {
         if (mysql == null) {
             mysql = new MySQL();
-            System.out.println("Conectado en MySQL");
+            System.out.println("Conectado por Singleton MySQL");
         }
         return mysql;
     }
@@ -20,7 +20,14 @@ public class MySQL extends DataBase{
     
     @Override
     public void disconnection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(isConnection())
+            System.out.println("Desconectar");
+        System.out.println("No existe");
+    }
+
+    @Override
+    public boolean isConnection() {
+        return false;
     }
     
 }

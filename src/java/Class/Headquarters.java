@@ -1,6 +1,6 @@
 package Class;
 
-import Interfaces.IClone;
+import Prototype.IClone;
 
 public class Headquarters implements IClone {
     private String name;
@@ -9,6 +9,12 @@ public class Headquarters implements IClone {
     private int headquartersId;
 
     public Headquarters() {
+    }
+    
+    public Headquarters(String name, String address, int capacity){
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
     }
     
     public Headquarters(String name, String address, int capacity ,int headquartersId){

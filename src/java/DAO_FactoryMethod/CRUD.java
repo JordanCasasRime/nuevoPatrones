@@ -1,4 +1,4 @@
-package FactoryMethod;
+package DAO_FactoryMethod;
 
 import java.util.ArrayList;
 
@@ -9,4 +9,6 @@ public interface CRUD<AClass> {
     AClass readID (int id);
     void update(AClass t);
     void delete(int id);
+
+    public void disconnection();
 }

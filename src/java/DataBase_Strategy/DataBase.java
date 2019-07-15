@@ -1,4 +1,4 @@
-package DataBaseStrategy;
+package DataBase_Strategy;
 
 public abstract class DataBase {
     
@@ -11,4 +11,5 @@ public abstract class DataBase {
     }
     
     public abstract void disconnection();
+    public abstract boolean isConnection();
 }

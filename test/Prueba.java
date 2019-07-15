@@ -1,18 +1,25 @@
 
+import Adapter.ArrayAdapter;
 import Class.Headquarters;
+import Class.Person;
 import Class.Publication;
 import DAO.HeadquartersDAO;
 import DAO.PersonDAO;
 import DAO.PublicationDAO;
-import DataBaseStrategy.ConectionDataBase;
-import DataBaseStrategy.MongoDB;
-import DataBaseStrategy.MySQL;
-import DataBaseStrategy.PostgreSQL;
-import DataBaseStrategy.SQL;
-import DataBaseStrategy.SQLServer;
-import DataBaseStrategy.DataBase;
-import FactoryMethod.CRUD;
+import DataBase_Strategy.ConectionDataBase;
+import DataBase_Strategy.MongoDB;
+import DataBase_Strategy.MySQL;
+import DataBase_Strategy.PostgreSQL;
+import DataBase_Strategy.SQL;
+import DataBase_Strategy.SQLServer;
+import DataBase_Strategy.DataBase;
+import DAO_FactoryMethod.CRUD;
+import DataBase_Facade.CheckFacade;
 import Interfaces.IConnection;
+import Iterator.ConcreteIterable;
+import Iterator.ConcreteIterator;
+import MementoMethod.Caretaker;
+import MementoMethod.Memento;
 import TemplateMethod.AccessAdministrator;
 import TemplateMethod.AccessPlataform;
 import TemplateMethod.AccessUser;
@@ -120,10 +127,66 @@ public class Prueba {
 //        DataBase sqlserver = SQLServer.getInstance();
 //        DataBase mysql = MySQL.getInstance();
 
-        ConectionDataBase bd = new ConectionDataBase();
-        bd.selectConection("PostgreSQL");
-        bd.selectConection("MySQL");
+//        ConectionDataBase bd = new ConectionDataBase();
+//        bd.selectConection("PostgreSQL");
+//        bd.selectConection("MySQL");
 
+
+//        ArrayList<Person> person = new ArrayList<Person>();
+//        
+//        Person aux = new Person();
+//        aux.setName("A");
+//        person.add(aux);
+//        
+//        Person aux2 = new Person();
+//        aux2.setName("B");
+//        person.add(aux2);
+//        
+//        aux = new Person();
+//        aux.setName("C");
+//        person.add(aux);
+//        
+//        aux = new Person();
+//        aux.setName("D");
+//        person.add(aux);
+//        
+        
+//
+//        ConcreteIterable iterable = new ConcreteIterable((ArrayList<Object>) (Object) person);
+//        ConcreteIterator iterator = (ConcreteIterator) iterable.createIterator();
+//        while(iterator.hasNext()){
+//            Person name = (Person) iterator.myItem();
+//            System.out.println(name.getName());
+//            iterator.next();
+//        }
+
+//        HeadquartersDAO h = HeadquartersDAO.getInstance();
+//        h.readAll();
+
+//        Caretaker care = new Caretaker();
+//        Publication p = new Publication("titulo", "descripcion", "date", "categoria", 1);
+//        Memento me = new Memento(p);
+//        care.addMemento(me);
+//        ArrayList<Memento> m = care.addAll(care.getMementos());
+//        System.out.println(care.getMementos().get(0).getState().getTitle());
+//        System.out.println(m.get(0).getState().getTitle());
+
+
+
+//        CheckFacade facade = new CheckFacade();
+//        facade.findConnection("", "", "", "", "");
+
+        
+        Integer[] numero = new Integer [3];
+        numero[0] = 1;
+        numero[1] = 2;
+        numero[2] = 3;
+        
+        ArrayAdapter adapater = new ArrayAdapter(numero);
+        ArrayList newList = adapater.convertedArrayList();
+        System.out.println(newList.get(0));
+        System.out.println(newList.get(1));
+        System.out.println(newList.get(2));
     }
 
 }

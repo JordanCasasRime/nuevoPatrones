@@ -24,4 +24,8 @@ public class ConcreteIterator implements Iterator<Object> {
         return list;
     }
     
+    public Object myItem () {
+        return myList.get(position);
+    }
+    
 }

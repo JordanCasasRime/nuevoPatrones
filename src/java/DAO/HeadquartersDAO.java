@@ -1,9 +1,11 @@
 package DAO;
 
 import Class.Headquarters;
-import DataBaseStrategy.MongoDB;
+import DataBase_Strategy.MongoDB;
 import Interfaces.IConnection;
 import Interfaces.IHeadquartersDAO;
+import Iterator.ConcreteIterable;
+import Iterator.ConcreteIterator;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -11,14 +13,9 @@ import java.util.ArrayList;
 
 public class HeadquartersDAO implements IHeadquartersDAO {
     
-    private IConnection connection;
     private static MongoDB mongodb;
     private static DBCollection collection;
     private static HeadquartersDAO dao;
-    
-    public void setConexion(IConnection conexion) {
-        this.connection = conexion;
-    }
 
     public synchronized static HeadquartersDAO getInstance () {
         if (dao == null){
@@ -65,7 +62,6 @@ public class HeadquartersDAO implements IHeadquartersDAO {
     @Override
     public Headquarters readID(int id) {
         BasicDBObject sede = (BasicDBObject) collection.findOne(new BasicDBObject("sedeId", id));
-        int idU = 1;
         if (sede != null) {
             return new Headquarters((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId"));
         }
