@@ -11,23 +11,19 @@ import Interfaces.IPublicationDAO;
 
 public class PublicationDAO implements IPublicationDAO {
 
-    public static PublicationDAO getInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static MongoDB mongodb;
+    private static DBCollection collection;
+    private static PublicationDAO dao;
+
+    public synchronized static PublicationDAO getInstance () {
+        if (dao == null){
+            dao = new PublicationDAO();
+            connection();
+        }
+        return dao;
     }
 
-    private IConnection connection;
-    private MongoDB mongodb;
-    private DBCollection collection;
-
-    public PublicationDAO() {
-        connection();
-    }
-
-    public void setConexion(IConnection conexion) {
-        this.connection = conexion;
-    }
-
-    public void connection() {
+    private static void connection() {
         mongodb = MongoDB.getInstance();
         collection = mongodb.getDatabase().getCollection("publicaciones");
     }

@@ -9,13 +9,13 @@ package clases;
  *
  * @author Giordano
  */
-public class Sede {
+public class Headquarter {
     private String nombre;
     private String direccion;
     private int aforo;
     private int sedeId;
     
-    public Sede(String nombre, String direccion, int aforo ,int sedeId){
+    public Headquarter(String nombre, String direccion, int aforo ,int sedeId){
         this.nombre = nombre;
         this.direccion = direccion;
         this.aforo = aforo;

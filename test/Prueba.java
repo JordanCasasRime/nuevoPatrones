@@ -14,6 +14,7 @@ import DataBase_Strategy.SQL;
 import DataBase_Strategy.SQLServer;
 import DataBase_Strategy.DataBase;
 import DAO_FactoryMethod.CRUD;
+import DAO_FactoryMethod.FactoryConnection;
 import DataBase_Facade.CheckFacade;
 import Interfaces.IConnection;
 import Iterator.ConcreteIterable;
@@ -177,16 +178,24 @@ public class Prueba {
 //        facade.findConnection("", "", "", "", "");
 
         
-        Integer[] numero = new Integer [3];
-        numero[0] = 1;
-        numero[1] = 2;
-        numero[2] = 3;
-        
-        ArrayAdapter adapater = new ArrayAdapter(numero);
-        ArrayList newList = adapater.convertedArrayList();
-        System.out.println(newList.get(0));
-        System.out.println(newList.get(1));
-        System.out.println(newList.get(2));
+//        Integer[] numero = new Integer [3];
+//        numero[0] = 1;
+//        numero[1] = 2;
+//        numero[2] = 3;
+//        
+//        ArrayAdapter adapater = new ArrayAdapter(numero);
+//        ArrayList newList = adapater.convertedArrayList();
+//        System.out.println(newList.get(0));
+//        System.out.println(newList.get(1));
+//        System.out.println(newList.get(2));
+
+
+        FactoryConnection factory = new FactoryConnection();
+        System.out.println(factory.getConnection("Headquarters").hashCode());
+        System.out.println(factory.getConnection("Publication").hashCode());
+        System.out.println(factory.getConnection("Headquarters").hashCode());
+        System.out.println(factory.getConnection("").hashCode());
+        System.out.println(factory.getConnection("hi").hashCode());
     }
 
 }

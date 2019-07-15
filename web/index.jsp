@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Juegos Panamericanos</title>
+  <title>Creative - Start Bootstrap Theme</title>
 
   <!-- Font Awesome Icons -->
   <link href="public/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

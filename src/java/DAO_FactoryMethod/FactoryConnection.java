@@ -4,6 +4,7 @@ import DAO.HeadquartersDAO;
 import DAO.PersonDAO;
 import DAO.PublicationDAO;
 import DAO.UserDAO;
+import NullObject.NullObject;
 
 public class FactoryConnection {
     
@@ -14,7 +15,7 @@ public class FactoryConnection {
             case "Publication" : return PublicationDAO.getInstance();
             case "User" : return UserDAO.getInstance();
         }
-        return null;
+        return NullObject.getInstance();
     }
     
 }

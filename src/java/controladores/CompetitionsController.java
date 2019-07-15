@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package controladores;
 
 import BD.ConexionMongo;
 import clases.Competition;
-import clases.Sede;
+import clases.Headquarter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class CompetitionsController extends HttpServlet {
             request.getRequestDispatcher("administrador/competitions/showCompetitions.jsp").forward(request, response);
         }else if(request.getParameter("page").equals("createCompetition")){
             ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Sede> sedes =conexion.obtenerSedes();
+            ArrayList<Headquarter> sedes =conexion.obtenerSedes();
             System.out.println(sedes);
             conexion.cerrarConexion();
             request.setAttribute("sedes",sedes);
@@ -83,7 +83,7 @@ public class CompetitionsController extends HttpServlet {
         }else if(request.getParameter("page").equals("editCompetition")){
             ConexionMongo conexion = new ConexionMongo();
             Competition competition =conexion.getCompetition(Integer.parseInt(request.getParameter("id")));
-            ArrayList<Sede> headquarters =conexion.obtenerSedes();
+            ArrayList<Headquarter> headquarters =conexion.obtenerSedes();
             conexion.cerrarConexion();
             request.setAttribute("competition",competition);
             request.setAttribute("headquarters",headquarters);

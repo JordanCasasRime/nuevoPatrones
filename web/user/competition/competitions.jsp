@@ -143,15 +143,15 @@
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="public/images/faces/face5.jpg" alt="profile"/>
-              <span class="nav-profile-name">Louis Barnett</span>
+              <span class="nav-profile-name">${person.name}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
                 <i class="mdi mdi-settings text-primary"></i>
                 Configuración
               </a>
-              <a class="dropdown-item">
-                <i class="mdi mdi-logout text-primary" href="index.jsp"></i>
+              <a class="dropdown-item" href="LoginController?parametro=logout">
+                <i class="mdi mdi-logout text-primary"></i>
                 Cerrar Sesión
               </a>
             </div>
@@ -168,25 +168,21 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="administrador.jsp">
+                <a class="nav-link" href="UserProfileController?parametro=index">
                     <i class="mdi mdi-home menu-icon"></i>
                     <span class="menu-title">Inicio</span>
                 </a>
             </li>
+            
             <li class="nav-item">
-                <a class="nav-link" href="SedesControlador?pagina=verSedes">
+                <a class="nav-link" href="UserProfileController?parametro=userProfile">
                     <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Sedes</span>
+                    <span class="menu-title">Mi Perfil</span>
                 </a>
             </li>
+            
             <li class="nav-item">
-                <a class="nav-link" href="UsersController?page=showUsers">
-                    <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Usuarios</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="CompetitionsController?page=showCompetitions">
+                <a class="nav-link" href="PublicationsController?parametro=competitions">
                     <i class="mdi mdi-home menu-icon"></i>
                     <span class="menu-title">Competencias</span>
                 </a>
@@ -196,41 +192,44 @@
       </nav>
       <!-- partial -->
       <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="padding-top: 12px;">
           
-            <div class="row">
-                <div class="col col-md-10">
-                    <h3>Lista de Sedes</h3>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-between flex-wrap" >
+                <div class="d-flex align-items-end flex-wrap">
+                  <div class="mr-md-3 mr-xl-5">
+                    <h2 style="padding-bottom: 0px; margin:0px;">Mi Perfil</h2>
+                  </div>
                 </div>
-                <div class="col col-md-2">
-                    <a class="btn btn-success" href="SedesControlador?pagina=crearSede">Crear Sede</a>
-                </div>
-                <div class="col col-md-12">
-                    <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Aforo</th>
-                            <th scope="col">Editar</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${sedes}" var="sede">
-                                <tr>
-                                  <th scope="row">${sede.sedeId}</th>
-                                  <td>${sede.nombre}</td>
-                                  <td>${sede.direccion}</td>
-                                  <td>${sede.aforo}</td>
-                                  <td><a class="btn btn-success" href="SedesControlador?pagina=editarSede&id=${sede.sedeId}">Editar</a></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
+              </div>
+                <hr>
             </div>
-            
+          </div>
+          <div class="row">
+            <div class="col col-md-12">
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Categoría</th>
+                        <th scope="col">Sede</th>
+                        <th scope="col">Editar</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${competitions}" var="competition">
+                            <tr>
+                              <td>${competition.title}</td>
+                              <td>${competition.category}</td>
+                              <td>${headquartersH.get(competition.headquarterId)}</td>
+                              <td><a class="btn btn-success" href="PublicationsController?parametro=showCompetition&id=${competition.competitionId}">Visualizar</a></td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div> 
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -266,7 +265,18 @@
   <script src="public/js/data-table.js"></script>
   <script src="public/js/jquery.dataTables.js"></script>
   <script src="public/js/dataTables.bootstrap4.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- End custom js for this page-->
+  
+  <script>
+    /*  
+    swal("Click OK to speak").then(() => {
+          const ut = new SpeechSynthesisUtterance('Hola Mundo, vamos a jalara jajajaja equisde');
+            speechSynthesis.speak(ut);
+      });
+    */      
+  </script>
 </body>
 
 </html>
+

@@ -2,10 +2,7 @@ package DAO;
 
 import Class.Headquarters;
 import DataBase_Strategy.MongoDB;
-import Interfaces.IConnection;
 import Interfaces.IHeadquartersDAO;
-import Iterator.ConcreteIterable;
-import Iterator.ConcreteIterator;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

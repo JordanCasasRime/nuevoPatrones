@@ -143,15 +143,15 @@
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
               <img src="public/images/faces/face5.jpg" alt="profile"/>
-              <span class="nav-profile-name">Louis Barnett</span>
+              <span class="nav-profile-name">${person.name}</span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
                 <i class="mdi mdi-settings text-primary"></i>
                 Configuración
               </a>
-              <a class="dropdown-item">
-                <i class="mdi mdi-logout text-primary" href="index.jsp"></i>
+              <a class="dropdown-item" href="LoginController?parametro=logout">
+                <i class="mdi mdi-logout text-primary"></i>
                 Cerrar Sesión
               </a>
             </div>
@@ -168,25 +168,21 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="administrador.jsp">
+                <a class="nav-link" href="UserProfileController?parametro=index">
                     <i class="mdi mdi-home menu-icon"></i>
                     <span class="menu-title">Inicio</span>
                 </a>
             </li>
+            
             <li class="nav-item">
-                <a class="nav-link" href="SedesControlador?pagina=verSedes">
+                <a class="nav-link" href="UserProfileController?parametro=userProfile">
                     <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Sedes</span>
+                    <span class="menu-title">Mi Perfil</span>
                 </a>
             </li>
+            
             <li class="nav-item">
-                <a class="nav-link" href="UsersController?page=showUsers">
-                    <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Usuarios</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="CompetitionsController?page=showCompetitions">
+                <a class="nav-link" href="PublicationsController?parametro=competitions">
                     <i class="mdi mdi-home menu-icon"></i>
                     <span class="menu-title">Competencias</span>
                 </a>
@@ -196,41 +192,54 @@
       </nav>
       <!-- partial -->
       <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="padding-top: 12px;">
           
-            <div class="row">
-                <div class="col col-md-10">
-                    <h3>Lista de Sedes</h3>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex justify-content-between flex-wrap" >
+                <div class="d-flex align-items-end flex-wrap">
+                  <div class="mr-md-3 mr-xl-5">
+                    <h2 style="padding-bottom: 0px; margin:0px;">Publicaciones de ${competition.title}</h2>
+                  </div>
                 </div>
-                <div class="col col-md-2">
-                    <a class="btn btn-success" href="SedesControlador?pagina=crearSede">Crear Sede</a>
+              </div>
+                <hr>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-md-8">
+                <div class="row" >
+                    <div class="col col-md-12">
+                        <div class="media">
+                            <div class="media-body">
+                              <div class="form-group">
+                                <label for="txtArea">Crear publicación :</label>
+                                <textarea class="form-control" id="txtArea" rows="3"></textarea>
+                                <a id="botonPublicar" class="btn btn-info btn-lg btn-block" style="margin-top:10px;">Publicar</a>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col col-md-12">
-                    <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Dirección</th>
-                            <th scope="col">Aforo</th>
-                            <th scope="col">Editar</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${sedes}" var="sede">
-                                <tr>
-                                  <th scope="row">${sede.sedeId}</th>
-                                  <td>${sede.nombre}</td>
-                                  <td>${sede.direccion}</td>
-                                  <td>${sede.aforo}</td>
-                                  <td><a class="btn btn-success" href="SedesControlador?pagina=editarSede&id=${sede.sedeId}">Editar</a></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                <div class="row"id="divPublications">
                 </div>
             </div>
-            
+            <div class="col col-md-4">
+                <div class="row">
+                    <c:forEach items="${competitors}" var="competitor">
+                        <div class="col col-md-12">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                              <h5 class="card-title">${personsH.get(competitor.getPersonId())}</h5>
+                              <i class="mdi mdi-thumb-up-outline">Me gusta</i>
+                              <i class="mdi mdi-thumb-down-outline">No me gusta</i>
+                            </div>
+                          </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+          </div>
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -266,7 +275,87 @@
   <script src="public/js/data-table.js"></script>
   <script src="public/js/jquery.dataTables.js"></script>
   <script src="public/js/dataTables.bootstrap4.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <!-- End custom js for this page-->
+  
+  <script>
+    /*  
+    swal("Click OK to speak").then(() => {
+          const ut = new SpeechSynthesisUtterance('Hola Mundo, vamos a jalara jajajaja equisde');
+            speechSynthesis.speak(ut);
+      });
+    */     
+   var idDivComentario;
+    var crearPublicacion = function(texto,parentId){
+        if(texto!=null){
+            var url = 'PublicationsController?parametro=getPublications&competitionId=${competition.competitionId}';
+        }else{
+            if(parentId==0){
+                var url = 'PublicationsController?parametro=getPublicationsAlone&competitionId=${competition.competitionId}'
+            }else{
+                var url = 'PublicationsController?parametro=getPublicationsChildrenAlone&competitionId=${competition.competitionId}'
+            }
+        }
+        
+        
+        $.ajax({
+            url : url,
+            scriptCharset: "utf-8" ,
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            // la información a enviar
+            // (también es posible utilizar una cadena de datos)
+            data : { personId : ${person.personId},
+                       competitionId: ${competition.competitionId},
+                    txtPublication : texto,
+                    parentId: parentId
+                    },
+
+            // especifica si será una petición POST o GET
+            type : 'GET',
+
+            // el tipo de información que se espera de respuesta
+            dataType : 'html',
+
+            // código a ejecutar si la petición es satisfactoria;
+            // la respuesta es pasada como argumento a la función
+            success : function(json) {
+                //alert(json);
+                if(parentId==0){
+                   $("#divPublications").html(json);
+                    $(".txtAreaComentario").keypress(function() {
+                        var key = window.event.keyCode;
+                        if (key === 13) {
+                            if($(this).val()!=""){
+                                idDivComentario = "divVC"+$(this).data("publicationid");
+                                crearPublicacion($(this).val(),$(this).data("publicationid"));
+                                $(this).val("");
+                            }
+                        }
+                      });
+                    $(".visualizarComentarios").on("click",function(){
+                        idDivComentario = "divVC"+$(this).data("publicationid");
+                        crearPublicacion(null,$(this).data("publicationid"));
+                        
+                    })
+                }else{
+                    $("#"+idDivComentario).html(json);
+                }
+                
+                
+            },
+
+            // código a ejecutar sin importar si la petición falló o no
+            complete : function(xhr, status) {
+                //alert('Petición realizada');
+            }
+        });
+    }
+    $("#botonPublicar").on("click",function(){
+        crearPublicacion($("#txtArea").val(),0);
+    })
+    crearPublicacion(null,0);
+  </script>
 </body>
 
 </html>
+
