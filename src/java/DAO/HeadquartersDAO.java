@@ -1,12 +1,13 @@
 package DAO;
 
-import clases.Headquarter;
+import Class.Sede;
 import DataBase_Strategy.MongoDB;
 import Interfaces.IHeadquartersDAO;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class HeadquartersDAO implements IHeadquartersDAO {
     
@@ -32,8 +33,8 @@ public class HeadquartersDAO implements IHeadquartersDAO {
     }
 
     @Override
-    public void create(Headquarter headquarters) {
-        Headquarter newHeadquarters = (Headquarter) headquarters.clone();
+    public void create(Sede headquarters) {
+        Sede newHeadquarters = (Sede) headquarters.clone();
         BasicDBObject sedeU = (BasicDBObject) collection.find().sort(new BasicDBObject("sedeId", -1)).limit(1).next();
         int idU = 1;
         if (sedeU != null) {
@@ -46,26 +47,26 @@ public class HeadquartersDAO implements IHeadquartersDAO {
     }
 
     @Override
-    public ArrayList<Headquarter> readAll() {
+    public ArrayList<Sede> readAll() {
         DBCursor sedes = collection.find();
-        ArrayList<Headquarter> sedesA = new ArrayList<Headquarter>();
+        ArrayList<Sede> sedesA = new ArrayList<Sede>();
         sedes.forEach((sede) -> {
-            sedesA.add(new Headquarter((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId")));
+            sedesA.add(new Sede((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId")));
         });
         return sedesA;
     }
 
     @Override
-    public Headquarter readID(int id) {
+    public Sede readID(int id) {
         BasicDBObject sede = (BasicDBObject) collection.findOne(new BasicDBObject("sedeId", id));
         if (sede != null) {
-            return new Headquarter((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId"));
+            return new Sede((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId"));
         }
         return null;
     }
 
     @Override
-    public void update(Headquarter headq) {
+    public void update(Sede headq) {
         collection.update(new BasicDBObject().append("sedeId", headq.getSedeId()),
         new BasicDBObject("$set", new BasicDBObject("nombre", headq.getNombre()).append("direccion", headq.getDireccion()).append("aforo", headq.getAforo())));
     }
@@ -73,6 +74,16 @@ public class HeadquartersDAO implements IHeadquartersDAO {
     @Override
     public void delete(int id) {
         collection.remove(new BasicDBObject().append("sedeId", id));
+    }
+
+    @Override
+    public Hashtable<Integer, String> getHeadquartersDiccionary() {
+        DBCursor headquarters = collection.find();
+        Hashtable<Integer, String> headquartersH = new Hashtable<Integer, String>();
+        headquarters.forEach((headquarter)->{
+            headquartersH.put((int)headquarter.get("sedeId"), (String)headquarter.get("nombre"));
+        });
+        return headquartersH;
     }
     
 }

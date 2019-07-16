@@ -1,9 +1,10 @@
 package Interfaces;
 
 import DAO_FactoryMethod.CRUD;
-import clases.Headquarter;
+import Class.Sede;
+import java.util.Hashtable;
 
-public interface IHeadquartersDAO extends CRUD<Headquarter> {
+public interface IHeadquartersDAO extends CRUD<Sede> {
     
-    
+    public Hashtable<Integer, String> getHeadquartersDiccionary();
 }

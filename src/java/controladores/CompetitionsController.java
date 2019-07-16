@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controladores;
 
 import BD.ConexionMongo;
-import clases.Competition;
-import clases.Headquarter;
+import Class.Competition;
+import Class.Sede;
+import DAO_FactoryMethod.FactoryConnection;
+import Interfaces.IHeadquartersDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -18,100 +15,81 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Giordano
- */
 @WebServlet(name = "CompetitionsController", urlPatterns = {"/CompetitionsController"})
 public class CompetitionsController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CompetitionsController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CompetitionsController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        FactoryConnection factory = new FactoryConnection();
         if(request.getParameter("page").equals("showCompetitions")){
             //ArrayList<Person> users =conexion.getPersons();
             //request.setAttribute("usuarios",users);
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Competition> competitions =conexion.getCompetitions();
+//            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
+//            conexion.cerrarConexion();
+            
+            ArrayList<Competition> competitions = factory.getConnection("Competition").readAll();
+            Hashtable<Integer, String> headquartersH = ((IHeadquartersDAO) factory.getConnection("Headquarters")).getHeadquartersDiccionary();
+//            factory.getConnection("Headquarters").disconnection();
+//            factory.getConnection("Competition").disconnection();
+            
             request.setAttribute("competitions",competitions);
             request.setAttribute("headquartersH",headquartersH);
             request.getRequestDispatcher("administrador/competitions/showCompetitions.jsp").forward(request, response);
         }else if(request.getParameter("page").equals("createCompetition")){
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Headquarter> sedes =conexion.obtenerSedes();
-            System.out.println(sedes);
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Sede> sedes =conexion.obtenerSedes();
+//            System.out.println(sedes);
+//            conexion.cerrarConexion();
+            
+            ArrayList<Sede> sedes = factory.getConnection("Headquarters").readAll();
+//            factory.getConnection("Headquarters").disconnection();
             request.setAttribute("sedes",sedes);
             request.getRequestDispatcher("administrador/competitions/createCompetition.jsp").forward(request, response);
         }else if(request.getParameter("page").equals("editCompetition")){
-            ConexionMongo conexion = new ConexionMongo();
-            Competition competition =conexion.getCompetition(Integer.parseInt(request.getParameter("id")));
-            ArrayList<Headquarter> headquarters =conexion.obtenerSedes();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            Competition competition =conexion.getCompetition(Integer.parseInt(request.getParameter("id")));
+//            ArrayList<Sede> headquarters =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
+            
+            Competition competition = (Competition) factory.getConnection("Competition").readID(Integer.parseInt(request.getParameter("id")));
+            ArrayList<Sede> headquarters = factory.getConnection("Headquarters").readAll();
+//            factory.getConnection("Headquarters").disconnection();
             request.setAttribute("competition",competition);
             request.setAttribute("headquarters",headquarters);
             request.getRequestDispatcher("administrador/competitions/editCompetition.jsp").forward(request, response);
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        FactoryConnection factory = new FactoryConnection();
         if(request.getParameter("_method").equals("POST")){
             String title = request.getParameter("titleCompetition");
             String category = request.getParameter("categoryCompetition");
             int headquarterId = Integer.parseInt(request.getParameter("headquarterCompetition"));
-            ConexionMongo conexion = new ConexionMongo();
-            conexion.createCompetition(title, category, headquarterId);
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            conexion.createCompetition(title, category, headquarterId);
+//            ArrayList<Competition> competitions =conexion.getCompetitions();
+//            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
+//            conexion.cerrarConexion();
+            
+            factory.getConnection("Competition").create(new Competition(1, title, category, headquarterId));
+            ArrayList<Competition> competitions = factory.getConnection("Competition").readAll();
+            Hashtable<Integer, String> headquartersH = ((IHeadquartersDAO) factory.getConnection("Headquarters")).getHeadquartersDiccionary();
+//            factory.getConnection("Headquarters").disconnection();
+//            factory.getConnection("Competition").disconnection();
             request.setAttribute("competitions",competitions);
             request.setAttribute("headquartersH",headquartersH);
             request.getRequestDispatcher("administrador/competitions/showCompetitions.jsp").forward(request, response);
@@ -122,33 +100,40 @@ public class CompetitionsController extends HttpServlet {
             int headquarterId = Integer.parseInt(request.getParameter("headquarterCompetition"));
             int competitionId = Integer.parseInt(request.getParameter("competitionId"));
 
-            ConexionMongo conexion = new ConexionMongo();
-            conexion.editCompetition(title, category, headquarterId,competitionId);
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            conexion.editCompetition(title, category, headquarterId,competitionId);
+//            ArrayList<Competition> competitions =conexion.getCompetitions();
+//            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
+//            conexion.cerrarConexion();
+            
+            factory.getConnection("Competition").update(new Competition (competitionId, title, category, headquarterId));
+            ArrayList<Competition> competitions = factory.getConnection("Competition").readAll();
+            Hashtable<Integer, String> headquartersH = ((IHeadquartersDAO) factory.getConnection("Headquarters")).getHeadquartersDiccionary();
+//            factory.getConnection("Headquarters").disconnection();
+//            factory.getConnection("Competition").disconnection();
             request.setAttribute("competitions",competitions);
             request.setAttribute("headquartersH",headquartersH);
             request.getRequestDispatcher("administrador/competitions/showCompetitions.jsp").forward(request, response);
         }else if(request.getParameter("_method").equals("DELETE")){
             int competitionId = Integer.parseInt(request.getParameter("competitionId"));
 
-            ConexionMongo conexion = new ConexionMongo();
-            conexion.deleteCompetition(competitionId);
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            conexion.deleteCompetition(competitionId);
+//            ArrayList<Competition> competitions =conexion.getCompetitions();
+//            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
+//            conexion.cerrarConexion();
+            
+            factory.getConnection("Competition").delete(competitionId);
+            ArrayList<Competition> competitions = factory.getConnection("Competition").readAll();
+            Hashtable<Integer, String> headquartersH = ((IHeadquartersDAO) factory.getConnection("Headquarters")).getHeadquartersDiccionary();
+//            factory.getConnection("Headquarters").disconnection();
+//            factory.getConnection("Competition").disconnection();
             request.setAttribute("competitions",competitions);
             request.setAttribute("headquartersH",headquartersH);
             request.getRequestDispatcher("administrador/competitions/showCompetitions.jsp").forward(request, response);
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

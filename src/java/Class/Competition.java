@@ -1,11 +1,21 @@
 package Class;
 
-public class Competition {
+import Prototype.IClone;
+
+public class Competition implements IClone {
     
     private int competitionId;
     private String title;
     private String category;
+    private int headquarterId;
 
+    public Competition(int competitionId, String title, String category, int headquarterId){
+        this.competitionId = competitionId;
+        this.title = title;
+        this.category = category;
+        this.headquarterId = headquarterId;
+    }
+    
     public int getCompetitionId() {
         return competitionId;
     }
@@ -28,6 +38,20 @@ public class Competition {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+    
+    public int getHeadquarterId() {
+        return headquarterId;
+    }
+
+    public void setHeadquarterId(int headquarterId) {
+        this.headquarterId = headquarterId;
+    }
+
+    @Override
+    public IClone clone() {
+        IClone competition = new Competition(this.competitionId, this.title, this.category, this.headquarterId);
+        return competition;
     }
     
 }

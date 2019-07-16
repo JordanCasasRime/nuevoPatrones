@@ -1,7 +1,7 @@
 
 import Adapter.ArrayAdapter;
 import BD.ConexionMongo;
-import Class.Headquarter;
+import Class.Sede;
 import Class.Person;
 import Class.Publication;
 import DAO.HeadquartersDAO;
@@ -25,7 +25,7 @@ import MementoMethod.Memento;
 import TemplateMethod.AccessAdministrator;
 import TemplateMethod.AccessPlataform;
 import TemplateMethod.AccessUser;
-import clases.Headquarter;
+import Class.Sede;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -199,29 +199,39 @@ public class Prueba {
 //        System.out.println(factory.getConnection("").hashCode());
 //        System.out.println(factory.getConnection("hi").hashCode());
 
-        ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Headquarter> sede =conexion.obtenerSedes();
-            conexion.cerrarConexion();
-            
-            int n = sede.size();
-            for (int i = 0; i < n; i++){
-                System.out.println(sede.get(i).getSedeId());
-                System.out.println(sede.get(i).getNombre());
-                System.out.println(sede.get(i).getDireccion());
-                System.out.println(sede.get(i).getAforo());
-            }
-            
-            FactoryConnection factory = new FactoryConnection();
-            ArrayList<Headquarter> sedes = factory.getConnection("Headquarters").readAll();
+//        ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Headquarters> sede =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
+//            
+//            int n = sede.size();
+//            for (int i = 0; i < n; i++){
+//                System.out.println(sede.get(i).getSedeId());
+//                System.out.println(sede.get(i).getNombre());
+//                System.out.println(sede.get(i).getDireccion());
+//                System.out.println(sede.get(i).getAforo());
+//            }
+//            
+//            FactoryConnection factory = new FactoryConnection();
+//            ArrayList<Headquarters> sedes = factory.getConnection("Headquarters").readAll();
+//            factory.getConnection("Headquarters").disconnection();
+//            
+//            n = sedes.size();
+//            for (int i = 0; i < n; i++){
+//                System.out.println(sedes.get(i).getHeadquartersId());
+//                System.out.println(sedes.get(i).getName());
+//                System.out.println(sedes.get(i).getAddress());
+//                System.out.println(sedes.get(i).getCapacity());
+//            }
+
+//            FactoryConnection factory = new FactoryConnection();
+//            Headquarters h = (Headquarters) factory.getConnection("Headquarters").readID(1);
+//            System.out.println(h.getNombre());
+
+        FactoryConnection factory = new FactoryConnection();
+        Sede headquarters = new Sede("prueba","abc",23, 1);
+        factory.getConnection("Headquarters").create(headquarters);
+        ArrayList<Sede> sedes = factory.getConnection("Headquarters").readAll();
             factory.getConnection("Headquarters").disconnection();
-            
-            n = sedes.size();
-            for (int i = 0; i < n; i++){
-                System.out.println(sedes.get(i).getHeadquartersId());
-                System.out.println(sedes.get(i).getName());
-                System.out.println(sedes.get(i).getAddress());
-                System.out.println(sedes.get(i).getCapacity());
-            }
     }
 
 }

@@ -1,23 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package clases;
+package Class;
 
 import Prototype.IClone;
 
-/**
- *
- * @author Giordano
- */
-public class Headquarter implements IClone {
+public class Sede implements IClone {
     private String nombre;
     private String direccion;
     private int aforo;
     private int sedeid;
     
-    public Headquarter(String nombre, String direccion, int aforo ,int sedeId){
+    public Sede(String nombre, String direccion, int aforo ,int sedeId){
         this.nombre = nombre;
         this.direccion = direccion;
         this.aforo = aforo;
@@ -58,7 +49,7 @@ public class Headquarter implements IClone {
     
     @Override
     public IClone clone() {
-        IClone headquarters = new Headquarter(this.nombre, this.direccion, this.aforo, this.sedeid);
+        IClone headquarters = new Sede(this.nombre, this.direccion, this.aforo, this.sedeid);
         return headquarters;
     }
     

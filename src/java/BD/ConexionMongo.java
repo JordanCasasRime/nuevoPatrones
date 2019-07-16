@@ -5,7 +5,7 @@
  */
 package BD;
 
-import clases.Competition;
+import Class.Competition;
 import clases.Competitor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -15,7 +15,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import java.util.ArrayList;
-import clases.Headquarter;
+import Class.Sede;
 import clases.Person;
 import clases.Publication;
 import java.util.Date;
@@ -43,26 +43,25 @@ public class ConexionMongo {
             if(sedeU.get("sedeId")!=null){
                 idU = (int)sedeU.get("sedeId") +1;
             }
-            
         }
         BasicDBObject documento = new BasicDBObject("nombre",nombre).append("sedeId",idU).append("direccion",direccion).append("aforo",aforo);
         sedesC.insert(documento); 
     }
-    public ArrayList<Headquarter> obtenerSedes(){
+    public ArrayList<Sede> obtenerSedes(){
         DBCollection sedesC = this.bd.getCollection("sedes");
         DBCursor sedes = sedesC.find();
-        ArrayList<Headquarter> sedesA = new ArrayList<Headquarter>();
+        ArrayList<Sede> sedesA = new ArrayList<Sede>();
         sedes.forEach((sede)->{
-            sedesA.add(new Headquarter((String)sede.get("nombre"),(String)sede.get("direccion"),(int)sede.get("aforo"),(int)sede.get("sedeId")));
+            sedesA.add(new Sede((String)sede.get("nombre"),(String)sede.get("direccion"),(int)sede.get("aforo"),(int)sede.get("sedeId")));
         });
         return sedesA;
     }
-    public Headquarter obtenerSede(int sedeId){
+    public Sede obtenerSede(int sedeId){
         DBCollection sedesC = this.bd.getCollection("sedes");
         BasicDBObject sede = (BasicDBObject) sedesC.findOne(new BasicDBObject("sedeId",sedeId));
         int idU = 1;
         if(sede!=null){
-            return new Headquarter((String)sede.get("nombre"),(String)sede.get("direccion"),(int)sede.get("aforo"),(int)sede.get("sedeId"));
+            return new Sede((String)sede.get("nombre"),(String)sede.get("direccion"),(int)sede.get("aforo"),(int)sede.get("sedeId"));
         }
         return null;
     }

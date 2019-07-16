@@ -6,7 +6,7 @@
 package controladores;
 
 import BD.ConexionMongo;
-import clases.Competition;
+import Class.Competition;
 import clases.Competitor;
 import clases.Person;
 import java.io.IOException;

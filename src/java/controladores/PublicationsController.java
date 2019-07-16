@@ -6,7 +6,7 @@
 package controladores;
 
 import BD.ConexionMongo;
-import clases.Competition;
+import Class.Competition;
 import clases.Competitor;
 import clases.Publication;
 import com.google.gson.Gson;
