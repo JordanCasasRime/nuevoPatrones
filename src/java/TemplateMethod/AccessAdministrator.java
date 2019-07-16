@@ -11,7 +11,7 @@ public class AccessAdministrator extends AccessPlataform {
             PersonDAO personDao = PersonDAO.getInstance();
             super.setPerson(new Person());
             super.setPerson(personDao.readID(super.getUser().getPersonId()));
-            if (super.getPerson().getUserType().equals("administrador"))
+            if (super.getPerson().getType().equals("administrador"))
                 return true;
         }
         return false;

@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package controladores;
+package Servlets;
 
 import BD.ConexionMongo;
 import Class.Competition;
 import Class.Competitor;
 import Class.Person;
+import DAO_FactoryMethod.FactoryConnection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -18,70 +14,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author Giordano
- */
 @WebServlet(name = "UsersController", urlPatterns = {"/UsersController"})
 public class UsersController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UsersController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UsersController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        FactoryConnection factory = new FactoryConnection();
         if(request.getParameter("page").equals("showUsers")){
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Person> users =conexion.getPersons();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Person> users =conexion.getPersons();
+//            conexion.cerrarConexion();
+            
+            ArrayList<Person> users = factory.getConnection("Person").readAll();
+//            factory.getConnection("Person").disconnection();
             request.setAttribute("usuarios",users);
             request.getRequestDispatcher("administrador/users/showUsers.jsp").forward(request, response);
         }else if(request.getParameter("page").equals("createUser")){
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Competition> competitions =conexion.getCompetitions();
+//            conexion.cerrarConexion();
+            
+             ArrayList<Competition> competitions = factory.getConnection("Competition").readAll();
+//            factory.getConnection("Competition").disconnection();
             request.setAttribute("competitions",competitions);
             request.getRequestDispatcher("administrador/users/createUser.jsp").forward(request, response);
         }else if(request.getParameter("page").equals("editUser")){
-            ConexionMongo conexion = new ConexionMongo();
-            Person person =conexion.getPerson(Integer.parseInt(request.getParameter("id")));
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            Competitor competitor = conexion.getCompetitor(person.getPersonId());
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            Person person =conexion.getPerson(Integer.parseInt(request.getParameter("id")));
+//            ArrayList<Competition> competitions =conexion.getCompetitions();
+//            Competitor competitor = conexion.getCompetitor(person.getPersonId());
+//            conexion.cerrarConexion();
+            
+            Person person = (Person) factory.getConnection("Person").readID(Integer.parseInt(request.getParameter("id")));
+            ArrayList<Competition> competitions = factory.getConnection("Competition").readAll();
+            Competitor competitor = (Competitor) factory.getConnection("Competitor").readID(person.getPersonId());
+//            factory.getConnection("Person").disconnection();
+//            factory.getConnection("Competition").disconnection();
+//            factory.getConnection("Person").disconnection();
             request.setAttribute("persona",person);
             request.setAttribute("competitions",competitions);
             request.setAttribute("competitor",competitor);
@@ -89,18 +67,11 @@ public class UsersController extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        FactoryConnection factory = new FactoryConnection();
         if(request.getParameter("_method").equals("POST")){
             String nombre = request.getParameter("nombreUser");
             String apellidos = request.getParameter("apellidosUser");
@@ -120,11 +91,14 @@ public class UsersController extends HttpServlet {
             if(tipo.equals("participante")){
                 int competitionId = Integer.parseInt(request.getParameter("competitionUser"));
                 conexion.createCompetitor(nombre, apellidos, edad, direccion, tipo, correo, contrasenia, competitionId);
+//                factory.getConnection("Competitor").create(new Competitor());
             }else{
                 conexion.createUser(nombre, apellidos, edad, direccion, tipo, correo, contrasenia);
             }
             
-            ArrayList<Person> users =conexion.getPersons();
+//            ArrayList<Person> users =conexion.getPersons();
+            ArrayList<Person> users = factory.getConnection("Person").readAll();
+            
             conexion.cerrarConexion();
             request.setAttribute("usuarios",users);
             //request.setAttribute("sedes",sedes);
@@ -147,10 +121,14 @@ public class UsersController extends HttpServlet {
                 int competitionId = Integer.parseInt(request.getParameter("competitionUser"));
                 conexion.editCompetitor(nombre, apellidos, edad, direccion, tipo, personId,competitionId,typeStart);
             }else{
-                conexion.editPerson(nombre, apellidos, edad, direccion, tipo, personId);
+//                conexion.editPerson(nombre, apellidos, edad, direccion, tipo, personId);
+                factory.getConnection("Person").update(new Person(personId, nombre, apellidos, edad, direccion, tipo));
             }
-            ArrayList<Person> users =conexion.getPersons();
+//            ArrayList<Person> users =conexion.getPersons();
+            ArrayList<Person> users = factory.getConnection("Person").readAll();
             conexion.cerrarConexion();
+            
+            
             request.setAttribute("usuarios",users);
             request.getRequestDispatcher("administrador/users/showUsers.jsp").forward(request, response);
         }else if(request.getParameter("_method").equals("DELETE")){
@@ -165,11 +143,6 @@ public class UsersController extends HttpServlet {
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
     public String getServletInfo() {
         return "Short description";

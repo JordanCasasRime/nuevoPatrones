@@ -8,23 +8,30 @@ public class Person implements IClone {
     private String name;
     private String lastName;
     private int age;
-    private String userType;
-    private String dni;
+    private String type;
     private String phone;
     private String address;
 
     public Person() {
     }
 
-    public Person(int personId, String name, String lastName, int age, String userType, String dni, String phone, String address) {
+    public Person(int personId, String name, String lastName, int age, String userType, String phone, String address) {
         this.personId = personId;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
-        this.userType = userType;
-        this.dni = dni;
+        this.type = userType;
         this.phone = phone;
         this.address = address;
+    }
+    
+    public Person(int personaId,String name,String lastName, int age, String address,String type){
+        this.personId = personaId;
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.address = address;
+        this.type = type;
     }
     
     public int getPersonId() {
@@ -59,20 +66,12 @@ public class Person implements IClone {
         this.age = age;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getType() {
+        return type;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
-        this.dni = dni;
+    public void setType(String userType) {
+        this.type = userType;
     }
 
     public String getPhone() {
@@ -93,7 +92,7 @@ public class Person implements IClone {
 
     @Override
     public IClone clone() {
-        IClone person = new Person(this.personId, this.name, this.lastName, this.age, this.userType, this.dni, this.phone, this.address);
+        IClone person = new Person(this.personId, this.name, this.lastName, this.age, this.type, this.phone, this.address);
         return person;
     }
 

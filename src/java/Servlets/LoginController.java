@@ -4,7 +4,7 @@ import BD.ConexionMongo;
 import TemplateMethod.AccessAdministrator;
 import TemplateMethod.AccessPlataform;
 import TemplateMethod.AccessUser;
-import clases.Person;
+import Class.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,17 +14,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController2 extends HttpServlet {
-    
+public class LoginController extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        if(request.getParameter("parametro").equals("logout")){
+            request.getSession().invalidate();
+            response.sendRedirect("index.jsp");
+        }
     }
 
     @Override
@@ -44,6 +51,21 @@ public class LoginController2 extends HttpServlet {
             request.getRequestDispatcher("usuario.jsp").forward(request, response);
         }
         request.getRequestDispatcher("login.jsp").forward(request, response);
+//        ConexionMongo conexion = new ConexionMongo();
+//        Person person = conexion.findForUser(correo, contrasenia);
+//        conexion.cerrarConexion();
+//        if(person!=null){
+//            request.getSession().setAttribute("person", person);
+//            if(person.getType().equals("administrador")){
+//                request.getRequestDispatcher("administrador.jsp").forward(request, response);
+//            }else{
+//                request.getRequestDispatcher("user/user.jsp").forward(request, response);
+//            }
+//            
+//        }else{
+//            request.getRequestDispatcher("login.jsp").forward(request, response);
+//        }
+        
     }
 
     @Override

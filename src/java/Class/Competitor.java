@@ -1,15 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package clases;
+package Class;
 
-/**
- *
- * @author Giordano
- */
-public class Competitor {
+import Prototype.IClone;
+
+public class Competitor implements IClone {
     private int competitorId;
     private int personId;
     private int competitionId;
@@ -42,6 +35,12 @@ public class Competitor {
 
     public void setCompetitionId(int competitionId) {
         this.competitionId = competitionId;
+    }
+
+    @Override
+    public IClone clone() {
+        IClone competitor = new Competitor(this.competitorId, this.personId, this.competitionId);
+        return competitor;
     }
     
     

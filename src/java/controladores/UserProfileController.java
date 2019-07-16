@@ -5,7 +5,7 @@
  */
 package controladores;
 
-import clases.Person;
+import Class.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;

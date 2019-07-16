@@ -43,7 +43,7 @@ public class PersonDAO implements IPersonDAO {
             }
         }
         BasicDBObject documento = new BasicDBObject("nombre", newPerson.getName()).append("personaId", idU).append("apellidos", newPerson.getLastName()).
-                append("edad",newPerson.getAge()).append("tipoUsuario", newPerson.getUserType()).append("dni", newPerson.getDni()).append("telefono", newPerson.getPhone()).
+                append("edad",newPerson.getAge()).append("tipoUsuario", newPerson.getType()).append("telefono", newPerson.getPhone()).
                 append("direccion", newPerson.getAddress());
         collection.insert(documento);
     }
@@ -54,7 +54,7 @@ public class PersonDAO implements IPersonDAO {
         ArrayList<Person> personaA = new ArrayList<Person>();
         personas.forEach((persona) -> {
             personaA.add(new Person((int) persona.get("personaId"), (String) persona.get("nombre"), (String) persona.get("apellidos"), (int) persona.get("edad"),
-                    (String) persona.get("tipoUsuario"), (String) persona.get("dni"), (String) persona.get("telefono"), (String) persona.get("direccion")));
+                    (String) persona.get("tipoUsuario"), (String) persona.get("telefono"), (String) persona.get("direccion")));
         });
         return personaA;
     }
@@ -63,7 +63,7 @@ public class PersonDAO implements IPersonDAO {
     public Person readID(int id) {
         BasicDBObject person = (BasicDBObject) collection.findOne(new BasicDBObject("personaId", id));
         if (person != null) {
-            return new Person((int) person.get("personaId"), (String) person.get("nombre"), (String) person.get("apellidos"), (int) person.get("edad"), (String) person.get("tipoUsuario"), (String) person.get("dni"), (String) person.get("telefono"), (String) person.get("direccion"));
+            return new Person((int) person.get("personaId"), (String) person.get("nombre"), (String) person.get("apellidos"), (int) person.get("edad"), (String) person.get("tipoUsuario"), (String) person.get("telefono"), (String) person.get("direccion"));
         }
         return null;
     }
@@ -71,7 +71,7 @@ public class PersonDAO implements IPersonDAO {
     @Override
     public void update(Person person) {
         collection.update(new BasicDBObject().append("personaId", person.getPersonId()),
-        new BasicDBObject("$set", new BasicDBObject("nombre", person.getName()).append("apellidos", person.getAddress()).append("edad", person.getAge()).append("tipoUsuario", person.getUserType()).append("telefono", person.getPhone()).append("direccion", person.getAddress())));
+        new BasicDBObject("$set", new BasicDBObject("nombre", person.getName()).append("apellidos", person.getAddress()).append("edad", person.getAge()).append("tipoUsuario", person.getType()).append("telefono", person.getPhone()).append("direccion", person.getAddress())));
     }
 
     @Override

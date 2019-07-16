@@ -168,21 +168,25 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="UserProfileController?parametro=index">
+                <a class="nav-link" href="administrador.jsp">
                     <i class="mdi mdi-home menu-icon"></i>
                     <span class="menu-title">Inicio</span>
                 </a>
             </li>
-            
             <li class="nav-item">
-                <a class="nav-link" href="UserProfileController?parametro=userProfile">
+                <a class="nav-link" href="SedesControlador?pagina=verSedes">
                     <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Mi Perfil</span>
+                    <span class="menu-title">Sedes</span>
                 </a>
             </li>
-            
             <li class="nav-item">
-                <a class="nav-link" href="PublicationsController?parametro=competitions">
+                <a class="nav-link" href="UsersController?page=showUsers">
+                    <i class="mdi mdi-home menu-icon"></i>
+                    <span class="menu-title">Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="CompetitionsController?page=showCompetitions">
                     <i class="mdi mdi-home menu-icon"></i>
                     <span class="menu-title">Competencias</span>
                 </a>
@@ -358,14 +362,43 @@
             }
         });
    }
+   var reportPublication = function(publicationId){
+       $.ajax({
+            url : 'AdminPublicationsController?parametro=reportPublication',
+            scriptCharset: "utf-8" ,
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            // la información a enviar
+            // (también es posible utilizar una cadena de datos)
+            data : { personId : ${person.personId},
+                    publicationId: publicationId
+                    },
+
+            // especifica si será una petición POST o GET
+            type : 'GET',
+
+            // el tipo de información que se espera de respuesta
+            dataType : 'html',
+
+            // código a ejecutar si la petición es satisfactoria;
+            // la respuesta es pasada como argumento a la función
+            success : function(html) {
+                
+            },
+
+            // código a ejecutar sin importar si la petición falló o no
+            complete : function(xhr, status) {
+                //alert('Petición realizada');
+            }
+        });
+   }
    
    var idDivComentario;
     var crearPublicacion = function(texto,parentId){
         if(texto!=null){
-            var url = 'PublicationsController?parametro=getPublications&competitionId=${competition.competitionId}';
+            var url = 'AdminPublicationsController?parametro=getPublications&competitionId=${competition.competitionId}';
         }else{
             if(parentId==0){
-                var url = 'PublicationsController?parametro=getPublicationsAlone&competitionId=${competition.competitionId}'
+                var url = 'AdminPublicationsController?parametro=getPublicationsAlone&competitionId=${competition.competitionId}'
             }else{
                 var url = 'PublicationsController?parametro=getPublicationsChildrenAlone&competitionId=${competition.competitionId}'
             }
@@ -425,6 +458,13 @@
                     $(".soundComentarios").on("click",function(){
                         const ut = new SpeechSynthesisUtterance($("#person"+$(this).data("publicationid")).html()+" comentó, "+$("#content"+$(this).data("publicationid")).html());
                         speechSynthesis.speak(ut);
+                    })
+                    
+                    
+                    $(".reportComentarios").unbind("click");
+                    $(".reportComentarios").on("click",function(){
+                        reportPublication($(this).data("publicationid"));
+                        $("#todo"+$(this).data("publicationid")).remove();
                     })
                 }else{
                     $("#"+idDivComentario).html(json);

@@ -227,11 +227,12 @@ public class Prueba {
 //            Headquarters h = (Headquarters) factory.getConnection("Headquarters").readID(1);
 //            System.out.println(h.getNombre());
 
-        FactoryConnection factory = new FactoryConnection();
-        Sede headquarters = new Sede("prueba","abc",23, 1);
-        factory.getConnection("Headquarters").create(headquarters);
-        ArrayList<Sede> sedes = factory.getConnection("Headquarters").readAll();
-            factory.getConnection("Headquarters").disconnection();
+          FactoryConnection factory = new FactoryConnection();
+//        Sede headquarters = new Sede("prueba","abc",23, 1);
+//        factory.getConnection("Headquarters").create(headquarters);
+//        ArrayList<Sede> sedes = factory.getConnection("Headquarters").readAll();
+          System.out.println(factory.getConnection("Competitor").hashCode());
+          System.out.println(factory.getConnection("Null").hashCode());
     }
 
 }

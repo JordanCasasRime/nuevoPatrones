@@ -11,7 +11,7 @@ public class AccessUser extends AccessPlataform {
             PersonDAO personDao = PersonDAO.getInstance();
             super.setPerson(new Person());
             super.setPerson(personDao.readID(super.getUser().getPersonId()));
-            if (super.getPerson().getUserType().equals("normal") || super.getPerson().getUserType().equals("participante"))
+            if (super.getPerson().getType().equals("normal") || super.getPerson().getType().equals("participante"))
                 return true;
         }
         return false;

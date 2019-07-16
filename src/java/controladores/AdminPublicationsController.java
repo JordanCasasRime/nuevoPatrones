@@ -10,7 +10,6 @@ import Class.Competition;
 import Class.Competitor;
 import Class.Person;
 import clases.Publication;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -25,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Giordano
  */
-@WebServlet(name = "PublicationsController", urlPatterns = {"/PublicationsController"})
-public class PublicationsController extends HttpServlet {
+@WebServlet(name = "AdminPublicationsController", urlPatterns = {"/AdminPublicationsController"})
+public class AdminPublicationsController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +44,10 @@ public class PublicationsController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet PublicationsController</title>");            
+            out.println("<title>Servlet AdminPublicationsController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet PublicationsController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AdminPublicationsController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,21 +65,10 @@ public class PublicationsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if(request.getParameter("parametro").equals("competitions")){
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Competition> competitions =conexion.getCompetitions();
-            Hashtable<Integer, String> headquartersH = conexion.getHeadquartersDiccionary();
-            conexion.cerrarConexion();
-            request.setAttribute("competitions",competitions);
-            request.setAttribute("headquartersH",headquartersH);
-            request.getRequestDispatcher("user/competition/competitions.jsp").forward(request, response);
-        }else if(request.getParameter("parametro").equals("showCompetition")){
+        if(request.getParameter("parametro").equals("showCompetition")){
             ConexionMongo conexion = new ConexionMongo();
             Competition competition =conexion.getCompetition(Integer.parseInt(request.getParameter("id")));
             ArrayList<Competitor> competitors =conexion.getCompetitorsForCompetition(competition.getCompetitionId());
-            System.out.println("ASASASASASAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            System.out.println(competition.getCompetitionId());
-            System.out.println(competitors.size());
             Hashtable<Integer, String> personsH = conexion.getPersonsDiccionary();
             Person person = (Person)request.getSession().getAttribute("person");
             Hashtable<Integer, Integer> cReactionsH = conexion.getReactionsCompetitorOfMe(person.getPersonId());
@@ -89,7 +77,7 @@ public class PublicationsController extends HttpServlet {
             request.setAttribute("competitors",competitors);
             request.setAttribute("personsH",personsH);
             request.setAttribute("cReactionsH",cReactionsH);
-            request.getRequestDispatcher("user/competition/showCompetition.jsp").forward(request, response);
+            request.getRequestDispatcher("administrador/publications/showCompetition.jsp").forward(request, response);
         }else if(request.getParameter("parametro").equals("getPublications")){
             int personId = Integer.parseInt(request.getParameter("personId"));
             int competitionId = Integer.parseInt(request.getParameter("competitionId"));
@@ -117,7 +105,7 @@ public class PublicationsController extends HttpServlet {
             request.setAttribute("personsH",personsH);
             request.setAttribute("pReactionsH",pReactionsH);
             if(parentId==0){
-                request.getRequestDispatcher("user/competition/publicationsAjax.jsp").forward(request, response);
+                request.getRequestDispatcher("administrador/publications/publicationsAjax.jsp").forward(request, response);
             }else{
                 request.getRequestDispatcher("user/competition/publicationsChildrenAjax.jsp").forward(request, response);
             }
@@ -134,40 +122,13 @@ public class PublicationsController extends HttpServlet {
             request.setAttribute("publications",publications);
             request.setAttribute("personsH",personsH);
             request.setAttribute("pReactionsH",pReactionsH);
-            request.getRequestDispatcher("user/competition/publicationsAjax.jsp").forward(request, response);
-        }else if(request.getParameter("parametro").equals("getPublicationsChildrenAlone")){
-            int personId = Integer.parseInt(request.getParameter("personId"));
-            int competitionId = Integer.parseInt(request.getParameter("competitionId"));
-            int parentId = Integer.parseInt(request.getParameter("parentId"));
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Publication> publications =conexion.getPublicationsChildren(parentId);
-            Hashtable<Integer, String> personsH = conexion.getPersonsDiccionary();
-            Hashtable<Integer, Integer> pReactionsH = conexion.getReactionsPublicationOfMe(personId);
-            conexion.cerrarConexion();
-            System.out.println(publications.size());
-            request.setAttribute("publications",publications);
-            request.setAttribute("personsH",personsH);
-            request.setAttribute("pReactionsH",pReactionsH);
-            request.getRequestDispatcher("user/competition/publicationsChildrenAjax.jsp").forward(request, response);
-        }else if(request.getParameter("parametro").equals("setLikeOrDislike")){
+            request.getRequestDispatcher("administrador/publications/publicationsAjax.jsp").forward(request, response);
+        }else if(request.getParameter("parametro").equals("reportPublication")){
             int personId = Integer.parseInt(request.getParameter("personId"));
             int publicationId = Integer.parseInt(request.getParameter("publicationId"));
-            int value = Integer.parseInt(request.getParameter("value"));
-            ConexionMongo conexion = new ConexionMongo();
-            //ArrayList<Publication> publications =conexion.getPublicationsChildren(parentId);
-            //Hashtable<Integer, String> personsH = conexion.getPersonsDiccionary();
-            conexion.editLikeOrDislikePublication(personId, publicationId, value);
-            conexion.cerrarConexion();
             
-            processRequest(request, response);
-        }else if(request.getParameter("parametro").equals("setLikeOrDislikeComp")){
-            int personId = Integer.parseInt(request.getParameter("personId"));
-            int competitorId = Integer.parseInt(request.getParameter("competitorId"));
-            int value = Integer.parseInt(request.getParameter("value"));
             ConexionMongo conexion = new ConexionMongo();
-            //ArrayList<Publication> publications =conexion.getPublicationsChildren(parentId);
-            //Hashtable<Integer, String> personsH = conexion.getPersonsDiccionary();
-            conexion.editLikeOrDislikeCompetitor(personId, competitorId, value);
+            conexion.reportPublication(personId, publicationId);
             conexion.cerrarConexion();
             
             processRequest(request, response);

@@ -1,10 +1,10 @@
 package controladores;
 
 import BD.ConexionMongo;
+import Class.Person;
 import TemplateMethod.AccessAdministrator;
 import TemplateMethod.AccessPlataform;
 import TemplateMethod.AccessUser;
-import clases.Person;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,7 +20,6 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
         }
     }
 
@@ -40,6 +39,7 @@ public class LoginController extends HttpServlet {
         //processRequest(request, response);
         String correo = request.getParameter("correoUser");
         String contrasenia = request.getParameter("contraseniaUser");
+        
         AccessPlataform acceso = new AccessAdministrator();
         acceso.gatherInformation(correo, contrasenia);
         if (acceso.showPage()){
@@ -48,7 +48,7 @@ public class LoginController extends HttpServlet {
         acceso = new AccessUser ();
         acceso.gatherInformation(correo, contrasenia);
         if (acceso.showPage()){
-            request.getRequestDispatcher("usuario.jsp").forward(request, response);
+            request.getRequestDispatcher("user/user.jsp").forward(request, response);
         }
         request.getRequestDispatcher("login.jsp").forward(request, response);
 //        ConexionMongo conexion = new ConexionMongo();
@@ -68,6 +68,11 @@ public class LoginController extends HttpServlet {
         
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";
