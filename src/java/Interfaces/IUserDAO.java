@@ -1,7 +1,7 @@
 package Interfaces;
 
 import DAO_FactoryMethod.CRUD;
-import Class.Headquarters;
+import Class.Headquarter;
 import Class.User;
 
 public interface IUserDAO extends CRUD<User> {

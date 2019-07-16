@@ -5,21 +5,23 @@
  */
 package clases;
 
+import Prototype.IClone;
+
 /**
  *
  * @author Giordano
  */
-public class Headquarter {
+public class Headquarter implements IClone {
     private String nombre;
     private String direccion;
     private int aforo;
-    private int sedeId;
+    private int sedeid;
     
     public Headquarter(String nombre, String direccion, int aforo ,int sedeId){
         this.nombre = nombre;
         this.direccion = direccion;
         this.aforo = aforo;
-        this.sedeId = sedeId;
+        this.sedeid = sedeId;
     }
 
     public String getNombre() {
@@ -47,13 +49,17 @@ public class Headquarter {
     }
 
     public int getSedeId() {
-        return sedeId;
+        return sedeid;
     }
 
     public void setSedeId(int sedeId) {
-        this.sedeId = sedeId;
+        this.sedeid = sedeId;
     }
     
-    
+    @Override
+    public IClone clone() {
+        IClone headquarters = new Headquarter(this.nombre, this.direccion, this.aforo, this.sedeid);
+        return headquarters;
+    }
     
 }

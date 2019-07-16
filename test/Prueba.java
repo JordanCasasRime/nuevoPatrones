@@ -1,6 +1,7 @@
 
 import Adapter.ArrayAdapter;
-import Class.Headquarters;
+import BD.ConexionMongo;
+import Class.Headquarter;
 import Class.Person;
 import Class.Publication;
 import DAO.HeadquartersDAO;
@@ -24,6 +25,7 @@ import MementoMethod.Memento;
 import TemplateMethod.AccessAdministrator;
 import TemplateMethod.AccessPlataform;
 import TemplateMethod.AccessUser;
+import clases.Headquarter;
 import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -190,12 +192,36 @@ public class Prueba {
 //        System.out.println(newList.get(2));
 
 
-        FactoryConnection factory = new FactoryConnection();
-        System.out.println(factory.getConnection("Headquarters").hashCode());
-        System.out.println(factory.getConnection("Publication").hashCode());
-        System.out.println(factory.getConnection("Headquarters").hashCode());
-        System.out.println(factory.getConnection("").hashCode());
-        System.out.println(factory.getConnection("hi").hashCode());
+//        FactoryConnection factory = new FactoryConnection();
+//        System.out.println(factory.getConnection("Headquarters").hashCode());
+//        System.out.println(factory.getConnection("Publication").hashCode());
+//        System.out.println(factory.getConnection("Headquarters").hashCode());
+//        System.out.println(factory.getConnection("").hashCode());
+//        System.out.println(factory.getConnection("hi").hashCode());
+
+        ConexionMongo conexion = new ConexionMongo();
+            ArrayList<Headquarter> sede =conexion.obtenerSedes();
+            conexion.cerrarConexion();
+            
+            int n = sede.size();
+            for (int i = 0; i < n; i++){
+                System.out.println(sede.get(i).getSedeId());
+                System.out.println(sede.get(i).getNombre());
+                System.out.println(sede.get(i).getDireccion());
+                System.out.println(sede.get(i).getAforo());
+            }
+            
+            FactoryConnection factory = new FactoryConnection();
+            ArrayList<Headquarter> sedes = factory.getConnection("Headquarters").readAll();
+            factory.getConnection("Headquarters").disconnection();
+            
+            n = sedes.size();
+            for (int i = 0; i < n; i++){
+                System.out.println(sedes.get(i).getHeadquartersId());
+                System.out.println(sedes.get(i).getName());
+                System.out.println(sedes.get(i).getAddress());
+                System.out.println(sedes.get(i).getCapacity());
+            }
     }
 
 }

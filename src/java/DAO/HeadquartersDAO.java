@@ -1,6 +1,6 @@
 package DAO;
 
-import Class.Headquarters;
+import clases.Headquarter;
 import DataBase_Strategy.MongoDB;
 import Interfaces.IHeadquartersDAO;
 import com.mongodb.BasicDBObject;
@@ -32,8 +32,8 @@ public class HeadquartersDAO implements IHeadquartersDAO {
     }
 
     @Override
-    public void create(Headquarters headquarters) {
-        Headquarters newHeadquarters = (Headquarters) headquarters.clone();
+    public void create(Headquarter headquarters) {
+        Headquarter newHeadquarters = (Headquarter) headquarters.clone();
         BasicDBObject sedeU = (BasicDBObject) collection.find().sort(new BasicDBObject("sedeId", -1)).limit(1).next();
         int idU = 1;
         if (sedeU != null) {
@@ -41,34 +41,33 @@ public class HeadquartersDAO implements IHeadquartersDAO {
                 idU = (int) sedeU.get("sedeId") + 1;
             }
         }
-        BasicDBObject documento = new BasicDBObject("nombre", newHeadquarters.getName()).append("sedeId", idU).append("direccion", newHeadquarters.getAddress()).append("aforo", newHeadquarters.getCapacity());
+        BasicDBObject documento = new BasicDBObject("nombre", newHeadquarters.getNombre()).append("sedeId", idU).append("direccion", newHeadquarters.getDireccion()).append("aforo", newHeadquarters.getAforo());
         collection.insert(documento);
     }
 
     @Override
-    public ArrayList<Headquarters> readAll() {
+    public ArrayList<Headquarter> readAll() {
         DBCursor sedes = collection.find();
-        ArrayList<Headquarters> sedesA = new ArrayList<Headquarters>();
+        ArrayList<Headquarter> sedesA = new ArrayList<Headquarter>();
         sedes.forEach((sede) -> {
-            Headquarters h = new Headquarters((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId"));
-            sedesA.add(h);
+            sedesA.add(new Headquarter((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId")));
         });
         return sedesA;
     }
 
     @Override
-    public Headquarters readID(int id) {
+    public Headquarter readID(int id) {
         BasicDBObject sede = (BasicDBObject) collection.findOne(new BasicDBObject("sedeId", id));
         if (sede != null) {
-            return new Headquarters((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId"));
+            return new Headquarter((String) sede.get("nombre"), (String) sede.get("direccion"), (int) sede.get("aforo"), (int) sede.get("sedeId"));
         }
         return null;
     }
 
     @Override
-    public void update(Headquarters headq) {
-        collection.update(new BasicDBObject().append("sedeId", headq.getHeadquartersId()),
-        new BasicDBObject("$set", new BasicDBObject("nombre", headq.getName()).append("direccion", headq.getAddress()).append("aforo", headq.getCapacity())));
+    public void update(Headquarter headq) {
+        collection.update(new BasicDBObject().append("sedeId", headq.getSedeId()),
+        new BasicDBObject("$set", new BasicDBObject("nombre", headq.getNombre()).append("direccion", headq.getDireccion()).append("aforo", headq.getAforo())));
     }
 
     @Override

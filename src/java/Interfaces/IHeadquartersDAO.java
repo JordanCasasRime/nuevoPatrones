@@ -1,9 +1,9 @@
 package Interfaces;
 
 import DAO_FactoryMethod.CRUD;
-import Class.Headquarters;
+import clases.Headquarter;
 
-public interface IHeadquartersDAO extends CRUD<Headquarters> {
+public interface IHeadquartersDAO extends CRUD<Headquarter> {
     
     
 }

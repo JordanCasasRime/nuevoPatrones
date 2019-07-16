@@ -2,22 +2,22 @@ package Class;
 
 import Prototype.IClone;
 
-public class Headquarters implements IClone {
+public class Headquarter implements IClone {
     private String name;
     private String address;
     private int capacity;
     private int headquartersId;
 
-    public Headquarters() {
+    public Headquarter() {
     }
     
-    public Headquarters(String name, String address, int capacity){
+    public Headquarter(String name, String address, int capacity){
         this.name = name;
         this.address = address;
         this.capacity = capacity;
     }
     
-    public Headquarters(String name, String address, int capacity ,int headquartersId){
+    public Headquarter(String name, String address, int capacity ,int headquartersId){
         this.name = name;
         this.address = address;
         this.capacity = capacity;
@@ -58,7 +58,7 @@ public class Headquarters implements IClone {
 
     @Override
     public IClone clone() {
-        IClone headquarters = new Headquarters(this.name, this.address, this.capacity, this.headquartersId);
+        IClone headquarters = new Headquarter(this.name, this.address, this.capacity, this.headquartersId);
         return headquarters;
     }
 

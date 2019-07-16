@@ -8,7 +8,6 @@ package controladores;
 import BD.ConexionMongo;
 import DAO_FactoryMethod.FactoryConnection;
 import clases.Headquarter;
-import Class.Headquarters;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -66,13 +65,13 @@ public class SedesControlador extends HttpServlet {
         //processRequest(request, response);
         if(request.getParameter("pagina").equals("verSedes")){
             
-            ConexionMongo conexion = new ConexionMongo();
-            ArrayList<Headquarter> sedes =conexion.obtenerSedes();
-            conexion.cerrarConexion();
+//            ConexionMongo conexion = new ConexionMongo();
+//            ArrayList<Headquarter> sede =conexion.obtenerSedes();
+//            conexion.cerrarConexion();
             
-//            FactoryConnection factory = new FactoryConnection();
-//            ArrayList<Headquarters> sedes = factory.getConnection("Headquarters").readAll();
-//            factory.getConnection("Headquarters").disconnection();
+            FactoryConnection factory = new FactoryConnection();
+            ArrayList<Headquarter> sedes = factory.getConnection("Headquarters").readAll();
+            factory.getConnection("Headquarters").disconnection();
             
             request.setAttribute("sedes",sedes);
             request.getRequestDispatcher("administrador/sedes/verSedes.jsp").forward(request, response);
